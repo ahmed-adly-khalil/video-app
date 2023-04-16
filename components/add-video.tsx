@@ -13,6 +13,8 @@ export default function AddVideo() {
   const submit = async () => {
     await addVideo({ title, description, likes: 0 });
     setIsOpen(false);
+    setTitle("");
+    setDescription("");
   };
 
   function closeModal() {
