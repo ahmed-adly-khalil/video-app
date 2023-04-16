@@ -22,7 +22,14 @@ function useVideos() {
       },
       body: JSON.stringify(video),
     });
-    return await resp.json();
+    const data = await resp.json();
+
+    if (data.insertedId !== undefined) {
+      // instead of fetching the videos again, we can just update the context state
+      setVideos((prev) => {
+        return [...prev, { ...video, id: data.insertedId }];
+      });
+    }
   };
 
   const increaseLikes = async (id: string) => {
