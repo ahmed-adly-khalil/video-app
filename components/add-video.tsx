@@ -3,7 +3,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useContext, useState } from "react";
 
 export default function AddVideo() {
-  const { getVideos, addVideo } = useContext(VideosContext);
+  const { addVideo } = useContext(VideosContext);
 
   const [isOpen, setIsOpen] = useState(false);
 

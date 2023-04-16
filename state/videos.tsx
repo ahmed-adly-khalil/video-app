@@ -26,9 +26,7 @@ function useVideos() {
 
     if (data.insertedId !== undefined) {
       // instead of fetching the videos again, we can just update the context state
-      setVideos((prev) => {
-        return [...prev, { ...video, id: data.insertedId }];
-      });
+      setVideos((prev) => [...prev, { ...video, id: data.insertedId }]);
     }
   };
 
