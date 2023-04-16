@@ -1,30 +1,19 @@
+import { VideosContext } from "@/state/videos";
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { Fragment, useContext, useState } from "react";
 
-export default function AddVideo(props: { refresh: () => void }) {
-  const { refresh } = props;
+export default function AddVideo() {
+  const { getVideos, addVideo } = useContext(VideosContext);
 
   const [isOpen, setIsOpen] = useState(false);
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
-  const addVideo = async () => {
-    const video: Video = {
-      title,
-      description,
-      likes: 0,
-    };
-    const resp = await fetch("/api/videos/add", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(video),
-    });
-    const data = await resp.json();
-    closeModal();
-    refresh();
+  const submit = async () => {
+    await addVideo({ title, description, likes: 0 });
+    getVideos();
+    setIsOpen(false);
   };
 
   function closeModal() {
@@ -65,7 +54,7 @@ export default function AddVideo(props: { refresh: () => void }) {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-lg transform overflow-hidden rounded-2xl border p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full bg-black max-w-lg transform overflow-hidden rounded-2xl border p-6 text-left align-middle shadow-xl transition-all">
                   <Dialog.Title
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-100"
@@ -100,8 +89,8 @@ export default function AddVideo(props: { refresh: () => void }) {
                   <div className="mt-4 flex justify-end">
                     <button
                       type="button"
-                      className="inline-flex justify-center rounded-md border border-transparent bg-gray-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                      onClick={addVideo}
+                      className="inline-flex justify-center rounded-md border border-transparent bg-gray-100 px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2"
+                      onClick={submit}
                     >
                       Add new video
                     </button>

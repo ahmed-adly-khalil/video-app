@@ -1,32 +1,19 @@
 import AddVideo from "@/components/add-video";
 import VideoCard from "@/components/video-card";
-import { useEffect, useState } from "react";
+import { VideosContext } from "@/state/videos";
+import { useContext } from "react";
 
 export default function Home() {
-  const [videos, setVideos] = useState<Video[]>([]);
-  const [loading, setLoading] = useState(false);
-
-  const getVideos = async () => {
-    setLoading(true);
-    const resp = await fetch("/api/videos");
-    const data = await resp.json();
-
-    setVideos(data);
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    getVideos();
-  }, []);
+  const { videos, loading, addVideo, getVideos } = useContext(VideosContext);
 
   return (
     <div className="flex w-full justify-center">
       <div className="w-4/5">
         <h1 className="text-4xl font-bold my-8">Videos</h1>
-        <AddVideo refresh={getVideos} />
+        <AddVideo  />
         <div className="grid grid-cols-3 gap-4">
           {videos.map((video) => (
-            <VideoCard key={video.id} video={video} refresh={getVideos} />
+            <VideoCard key={video.id} video={video}  />
           ))}
         </div>
         <div className="h-4 mt-8 text-2xl">

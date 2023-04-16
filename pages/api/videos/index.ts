@@ -8,8 +8,6 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Video[]>
 ) {
-  const model: Video = req.body;
-
   const client: MongoClient = await clientPromise;
   const db = client.db();
 

@@ -1,10 +1,10 @@
-export default function VideoCard(pros: { video: Video; refresh: () => void }) {
-  const { video, refresh } = pros;
+import { VideosContext } from "@/state/videos";
+import { useContext } from "react";
 
-  const increaseLikes = async () => {
-    await fetch(`/api/videos/like?id=${video.id}`);
-    refresh();
-  };
+export default function VideoCard(pros: { video: Video }) {
+  const { video } = pros;
+
+  const { increaseLikes } = useContext(VideosContext);
 
   return (
     <div className="border p-6 rounded-xl min-w-[300px]">
@@ -17,7 +17,9 @@ export default function VideoCard(pros: { video: Video; refresh: () => void }) {
 
         <div className="col-span-6">
           <button
-            onClick={increaseLikes}
+            onClick={() => {
+              increaseLikes(video.id as string);
+            }}
             className="border pb-1 w-8 h-8 rounded-md"
           >
             +
