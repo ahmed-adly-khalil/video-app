@@ -25,9 +25,23 @@ function useVideos() {
     return await resp.json();
   };
 
-  const increaseLikes = async (id:string) => {
-    await fetch(`/api/videos/like?id=${id}`);
-    getVideos();
+  const increaseLikes = async (id: string) => {
+    setLoading(true);
+    const res = await fetch(`/api/videos/like?id=${id}`);
+    const data = await res.json();
+
+    if (data.modifiedCount === 1) {
+      // instead of fetching the videos again, we can just update the context state
+      setVideos((prev) => {
+        return prev.map((video) => {
+          if (video.id === id) {
+            return { ...video, likes: video.likes + 1 };
+          }
+          return video;
+        });
+      });
+    }
+    setLoading(false);
   };
 
   useEffect(() => {

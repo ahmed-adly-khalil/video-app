@@ -16,7 +16,7 @@ export default function Home() {
             <VideoCard key={video.id} video={video}  />
           ))}
         </div>
-        <div className="h-4 mt-8 text-2xl">
+        <div className="h-4 mt-8 text-2xl absolute  left-1/2 top-4">
           {loading && <div>Loading...</div>}
         </div>
       </div>
